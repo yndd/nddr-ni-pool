@@ -1,0 +1,8 @@
+apiVersion: pkg.ndd.yndd.io/v1
+kind: Intent
+metadata:
+  name: nddr-nipool
+  namespace: ndd-system
+spec:
+  package: yndd/nddr-ni-pool:latest
+  packagePullPolicy: Always

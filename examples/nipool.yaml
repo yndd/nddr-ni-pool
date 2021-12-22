@@ -1,0 +1,9 @@
+apiVersion: nipool.nddr.yndd.io/v1alpha1
+kind: NiPool
+metadata:
+  name: test
+  namespace: default
+spec:
+  ni-pool:
+    description: default Network Instance pool
+    size: 1000

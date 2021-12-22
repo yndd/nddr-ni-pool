@@ -1,0 +1,8 @@
+
+apiVersion: meta.pkg.ndd.yndd.io/v1
+kind: Intent
+metadata:
+  name: nddr-ni-pool
+spec:
+  controller:
+    image: yndd/nddr-ni-pool-controller:latest

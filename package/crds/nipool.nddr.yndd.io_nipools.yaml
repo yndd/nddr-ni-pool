@@ -1,0 +1,163 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.1
+  creationTimestamp: null
+  name: nipools.nipool.nddr.yndd.io
+spec:
+  group: nipool.nddr.yndd.io
+  names:
+    kind: NiPool
+    listKind: NiPoolList
+    plural: nipools
+    singular: nipool
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.kind=='Synced')].status
+      name: SYNC
+      type: string
+    - jsonPath: .status.conditions[?(@.kind=='Ready')].status
+      name: STATUS
+      type: string
+    - description: allocated network-instance
+      jsonPath: .status.ni-pool.state.allocated
+      name: ALLOCATED
+      type: string
+    - description: available network-instance
+      jsonPath: .status.ni-pool.state.available
+      name: AVAILABLE
+      type: string
+    - description: total network-instances
+      jsonPath: .status.ni-pool.state.total
+      name: TOTAL
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: NiPool is the Schema for the NiPool API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: A NiPoolSpec defines the desired state of a NiPool.
+            properties:
+              ni-pool:
+                description: nddv1.ResourceSpec `json:",inline"`
+                properties:
+                  admin-state:
+                    default: enable
+                    enum:
+                    - disable
+                    - enable
+                    type: string
+                  allocation-strategy:
+                    default: first-available
+                    enum:
+                    - first-available
+                    type: string
+                  description:
+                    description: kubebuilder:validation:MinLength=1 kubebuilder:validation:MaxLength=255
+                    pattern: '[A-Za-z0-9 !@#$^&()|+=`~.,''/_:;?-]*'
+                    type: string
+                  size:
+                    description: kubebuilder:validation:Minimum=1 kubebuilder:validation:Maximum=8192
+                    format: int32
+                    type: integer
+                required:
+                - size
+                type: object
+            type: object
+          status:
+            description: A NiPoolStatus represents the observed state of a NiPool.
+            properties:
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource
+                  properties:
+                    kind:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                  required:
+                  - kind
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  type: object
+                type: array
+              ni-pool:
+                description: NddrNiPoolNiPool struct
+                properties:
+                  admin-state:
+                    type: string
+                  allocation-strategy:
+                    type: string
+                  description:
+                    type: string
+                  name:
+                    type: string
+                  size:
+                    format: int32
+                    type: integer
+                  state:
+                    description: NddrNiPoolNiPoolState struct
+                    properties:
+                      allocated:
+                        type: integer
+                      available:
+                        type: integer
+                      total:
+                        type: integer
+                      used:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                type: object
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

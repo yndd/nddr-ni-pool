@@ -1,0 +1,5 @@
+version: "1"
+domain: nddr.yndd.io
+repository: github.com/yndd/nddr-ni-pool
+name: nddr-ni-pool
+resources: []

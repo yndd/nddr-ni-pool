@@ -1,0 +1,22 @@
+apiVersion: nipool.nddr.yndd.io/v1alpha1
+kind: Alloc
+metadata:
+  name: alloc1
+  namespace: default
+spec:
+  ni-pool-name: test
+  alloc:
+    selector:
+    - key: name
+      value: default
+    source-tag:
+    - key: node
+      value: leaf1
+    - key: network-instance
+      value: default
+    - key: vpc
+      value: default
+    - key: tenant
+      value: default
+
+      
