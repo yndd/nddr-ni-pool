@@ -30,6 +30,7 @@ const (
 	AllocFinalizer string = "alloc.nipool.nddr.yndd.io"
 
 	NiSelectorKey = "name"
+	LabelNiKey = "network-instance"
 )
 
 // NddrNiPoolAlloc struct
