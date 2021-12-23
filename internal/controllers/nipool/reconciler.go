@@ -280,11 +280,7 @@ func (r *Reconciler) GarbageCollection(ctx context.Context, cr nipoolv1alpha1.Np
 		return err
 	}
 
-	log.Debug("Alloc List", "Alloc", alloc.Items)
-
 	poolname := cr.GetName()
-
-	log.Debug("PoolName", "poolname", poolname)
 
 	// check if allocations dont have NI allocated
 	// check if allocations match with allocated pool

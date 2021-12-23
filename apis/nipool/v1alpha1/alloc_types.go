@@ -28,6 +28,8 @@ const (
 	// AllocFinalizer is the name of the finalizer added to
 	// Alloc to block delete operations until all resources have been finalized
 	AllocFinalizer string = "alloc.nipool.nddr.yndd.io"
+
+	NiSelectorKey = "name"
 )
 
 // NddrNiPoolAlloc struct

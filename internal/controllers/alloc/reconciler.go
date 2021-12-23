@@ -274,14 +274,18 @@ func (r *Reconciler) handleAppLogic(ctx context.Context, cr nipoolv1alpha1.Aa, t
 	switch nipool.GetAllocationStrategy() {
 	default:
 		// first available allocation strategy
-		nis = r.pool[treename].QueryByLabels(selector)
+		if niname, ok := cr.GetSelector()[nipoolv1alpha1.NiSelectorKey]; !ok {
+			return errors.New("pool allocation failed, niname not present in selector")
+		} else {
+			nis = r.pool[treename].QueryByName(niname)
+		}
 	}
 
 	if len(nis) == 0 {
 		// label/selector not found in the pool -> allocate AS in pool
 		switch nipool.GetAllocationStrategy() {
 		default:
-			if niname, ok := cr.GetSelector()["name"]; !ok {
+			if niname, ok := cr.GetSelector()[nipoolv1alpha1.NiSelectorKey]; !ok {
 				return errors.New("pool allocation failed, niname not present in selector")
 			} else {
 				if a, ok := r.pool[treename].Allocate(niname, sourcetags); !ok {
